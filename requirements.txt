@@ -1,0 +1,3 @@
+pip install Wave
+pip install moviepy
+pip install SpeechRecognition
