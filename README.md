@@ -2,7 +2,7 @@
 
 MP4 to WAV file
 ```
-ffmpeg -i <infile> -ac 2 -f wav <outfile>
+ffmpeg -i input_video.mp4 -q:a 0 -map a output_audio.wav
 ```
 
 
