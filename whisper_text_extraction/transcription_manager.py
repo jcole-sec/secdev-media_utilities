@@ -68,7 +68,7 @@ class WhisperTranscriptionManager:
             
         try:
             cmd = ["ffmpeg", "-i", str(self.source_video), "-f", "null", "-"]
-            result = subprocess.run(cmd, capture_output=True, text=True, stderr=subprocess.STDOUT)
+            result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
             
             for line in result.stdout.split("\n"):
                 if "Duration:" in line:
