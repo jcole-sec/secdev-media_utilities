@@ -39,7 +39,7 @@ echo ""
 current=0
 
 # Process each video file recursively
-find "$VIDEO_DIR" -type f -name "*.mp4" | while read -r video; do
+while IFS= read -r video; do
     ((current++))
     video_dir=$(dirname "$video")
     
@@ -55,6 +55,6 @@ find "$VIDEO_DIR" -type f -name "*.mp4" | while read -r video; do
         --output "$video_dir"
     
     echo ""
-done
+done < <(find "$VIDEO_DIR" -type f -name "*.mp4")
 
 echo "Batch transcription complete!"
