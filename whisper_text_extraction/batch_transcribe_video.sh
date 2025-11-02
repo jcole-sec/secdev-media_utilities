@@ -3,9 +3,24 @@
 # Batch transcribe videos recursively
 # This script processes all .mp4 videos in the specified directory and subdirectories
 # Outputs transcription files to the same directory as each video source
+# Usage: ./batch_transcribe_video.sh [VIDEO_DIRECTORY]
 
-VIDEO_DIR="path/to/your/video_directory"  # Set your target video directory here
+# Check if directory argument is provided
+if [ -z "$1" ]; then
+    echo "Error: No directory specified"
+    echo "Usage: $0 <video_directory>"
+    echo "Example: $0 ~/nas/data_share/Training/videos"
+    exit 1
+fi
+
+VIDEO_DIR="$1"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Check if directory exists
+if [ ! -d "$VIDEO_DIR" ]; then
+    echo "Error: Directory does not exist: $VIDEO_DIR"
+    exit 1
+fi
 
 cd "$SCRIPT_DIR"
 
