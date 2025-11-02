@@ -1,0 +1,36 @@
+# Cross-platform requirements for Media Utilities
+# Install with: pip install -r requirements_cross_platform.txt
+
+# Core audio recording (works on Windows, Linux, macOS)
+pvrecorder
+
+# Speech recognition and transcription
+openai-whisper
+faster-whisper
+SpeechRecognition==3.9.0
+
+# Video processing
+moviepy==1.0.3
+
+# Audio file handling
+wave
+
+# Cross-platform utilities
+pathlib
+
+# Platform-specific optimizations
+torch>=1.9.0  # For GPU acceleration where available
+
+# Optional: Platform-specific audio backends
+# Uncomment based on your platform:
+
+# Windows-specific (uncomment if on Windows)
+# pyaudio  # Alternative audio backend
+# winsound  # Windows sound utilities
+
+# Linux-specific (uncomment if on Linux)
+# alsa-lib  # ALSA support
+# pulseaudio  # PulseAudio support
+
+# macOS-specific (uncomment if on macOS)
+# pyobjc  # macOS system integration

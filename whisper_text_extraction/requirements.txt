@@ -1,0 +1,24 @@
+# Whisper Text Extraction Requirements
+# =====================================
+# Core transcription system dependencies
+
+# OpenAI Whisper for transcription
+openai-whisper>=20231117
+
+# Audio processing
+torch>=2.0.0
+torchaudio>=2.0.0
+
+# Standard libraries (usually included with Python)
+# pathlib - built-in
+# json - built-in 
+# datetime - built-in
+# wave - built-in
+# subprocess - built-in
+# argparse - built-in
+# logging - built-in
+# os - built-in
+# time - built-in
+
+# Note: FFmpeg is required for audio extraction but must be installed separately
+# Download from: https://ffmpeg.org/download.html

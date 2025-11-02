@@ -5,9 +5,9 @@ from moviepy.editor import AudioFileClip
 # ref: https://towardsdatascience.com/transcribing-interview-data-from-video-to-text-with-python-5cdb6689eea1
 
 transcribed_audio_file_name = "transcribed_speech.wav"
-zoom_video_file_name = "Advanced Security - Intro to Hardware, Day 2.mp4"
+video_file_name = "video.mp4"
 
-audioclip = AudioFileClip(zoom_video_file_name)
+audioclip = AudioFileClip(video_file_name)
 audioclip.write_audiofile(transcribed_audio_file_name)
 
 with contextlib.closing(wave.open(transcribed_audio_file_name,'r')) as f:

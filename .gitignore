@@ -3,3 +3,9 @@
 
 # default recording
 */audio.wav
+
+.github/*.md
+
+transcripts/
+
+*/__pycache__/
