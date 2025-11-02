@@ -12,3 +12,5 @@ transcripts/
 
 utils/*.ini
 utils/mount_nas.sh
+
+whisper_text_extraction/*.wav
