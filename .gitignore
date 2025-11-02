@@ -9,3 +9,6 @@
 transcripts/
 
 */__pycache__/
+
+utils/*.ini
+utils/mount_nas.sh
