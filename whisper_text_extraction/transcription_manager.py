@@ -37,11 +37,12 @@ class WhisperTranscriptionManager:
         self.segment_minutes = 30
         self.max_retries = 3
         
-        self.progress_file = self.output_dir / "transcription_progress.json"
+        # Make progress tracking video-specific to avoid conflicts
+        self.progress_file = self.output_dir / f".{video_name}_progress.json"
         self.final_transcript = self.output_dir / f"{video_name}_transcript.txt"
         self.final_srt = self.output_dir / f"{video_name}_subtitles.srt"
         self.final_json = self.output_dir / f"{video_name}_data.json"
-        self.segments_dir = self.output_dir / "segments"
+        self.segments_dir = self.output_dir / f".{video_name}_segments"
         self.segments_dir.mkdir(exist_ok=True)
     
     def setup_logging(self):

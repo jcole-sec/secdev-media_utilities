@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Batch transcribe videos recursively using OpenAI Whisper
-# Processes all .mp4 videos in the specified directory and subdirectories
+# Processes all supported video files in the specified directory and subdirectories
+# Supported formats: mp4, mkv, avi, mov, wmv, flv, webm, m4v, mpg, mpeg
 # Outputs transcription files (.txt, .srt, .json) to the same directory as each video
 # Usage: ./batch_transcribe_video.sh <video_directory>
 
@@ -29,7 +30,20 @@ cd "$SCRIPT_DIR"
 echo "Starting recursive batch transcription..."
 echo "Video directory: $VIDEO_DIR"
 
-total_videos=$(find "$VIDEO_DIR" -type f -name "*.mp4" | wc -l)
+# Find all supported video files
+# Common video formats: mp4, mkv, avi, mov, wmv, flv, webm, m4v, mpg, mpeg
+total_videos=$(find "$VIDEO_DIR" -type f \( \
+    -iname "*.mp4" -o \
+    -iname "*.mkv" -o \
+    -iname "*.avi" -o \
+    -iname "*.mov" -o \
+    -iname "*.wmv" -o \
+    -iname "*.flv" -o \
+    -iname "*.webm" -o \
+    -iname "*.m4v" -o \
+    -iname "*.mpg" -o \
+    -iname "*.mpeg" \
+\) | wc -l)
 echo "Found $total_videos video(s) to process"
 echo ""
 
@@ -38,7 +52,18 @@ succeeded=0
 failed=0
 
 # Process each video file recursively
-find "$VIDEO_DIR" -type f -name "*.mp4" | while IFS= read -r video; do
+find "$VIDEO_DIR" -type f \( \
+    -iname "*.mp4" -o \
+    -iname "*.mkv" -o \
+    -iname "*.avi" -o \
+    -iname "*.mov" -o \
+    -iname "*.wmv" -o \
+    -iname "*.flv" -o \
+    -iname "*.webm" -o \
+    -iname "*.m4v" -o \
+    -iname "*.mpg" -o \
+    -iname "*.mpeg" \
+\) | while IFS= read -r video; do
     ((current++))
     video_dir=$(dirname "$video")
     
