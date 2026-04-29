@@ -1,6 +1,7 @@
 import whisper
 import platform
 import os
+import numpy as np
 
 def load_whisper_model(model_size="base"):
     """Load Whisper model with automatic device detection"""
@@ -46,24 +47,33 @@ def transcribe_audio_file(audio_path, model_size="base", output_base_name="trans
         print(f"Loading audio file: {audio_path}")
         audio = whisper.load_audio(audio_path)
         
-        # Fixed chunking settings (30 seconds)
+        # Tunable chunking settings (free/local optimization)
         chunk_duration = 30
+        overlap_seconds = 5
+        silence_threshold = 0.003
         sample_rate = whisper.audio.SAMPLE_RATE
         chunk_samples = chunk_duration * sample_rate
+        overlap_samples = overlap_seconds * sample_rate
+        step_samples = max(1, chunk_samples - overlap_samples)
         
         # Split audio into chunks
         total_samples = audio.shape[0]
-        chunks = [audio[i:i+chunk_samples] for i in range(0, total_samples, chunk_samples)]
+        chunks = [audio[i:i + chunk_samples] for i in range(0, total_samples, step_samples)]
         
         print(f"Processing {len(chunks)} chunks...")
         
         # Process each chunk
         transcription = []
         detected_language = None
+        previous_text = ""
         
         for i, chunk in enumerate(chunks):
             try:
                 chunk = whisper.pad_or_trim(chunk)
+                chunk_rms = float(np.sqrt(np.mean(np.square(chunk)))) if chunk.size else 0.0
+                if chunk_rms < silence_threshold:
+                    print(f"Skipping silent chunk {i + 1}/{len(chunks)} (RMS={chunk_rms:.6f})")
+                    continue
                 mel = whisper.log_mel_spectrogram(chunk).to(model.device)
                 
                 # Detect language for first chunk only
@@ -72,10 +82,21 @@ def transcribe_audio_file(audio_path, model_size="base", output_base_name="trans
                     detected_language = max(probs, key=probs.get)
                     print(f"Detected language: {detected_language}")
                 
-                options = whisper.DecodingOptions()
+                options = whisper.DecodingOptions(
+                    language=detected_language,
+                    task="transcribe",
+                    temperature=0.0,
+                    beam_size=5,
+                    best_of=5,
+                    fp16=(str(model.device).lower() != "cpu"),
+                    prompt=previous_text[-200:] if previous_text else None,
+                )
                 result = whisper.decode(model, mel, options)
-                
-                transcription.append(result.text.strip())
+
+                text = result.text.strip()
+                if text:
+                    transcription.append(text)
+                    previous_text = f"{previous_text} {text}".strip()
                 print(f"Processed chunk {i + 1}/{len(chunks)}")
                 
             except Exception as e:

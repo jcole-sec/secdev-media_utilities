@@ -9,3 +9,8 @@
 transcripts/
 
 */__pycache__/
+.claude
+.idea
+.vscode
+
+*.ini

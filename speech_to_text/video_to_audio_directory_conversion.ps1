@@ -1,7 +1,7 @@
 # PowerShell script for video to audio conversion
 # Directory containing .mp4 files
 
-$inputDirectory = "C:\path\to\your\directory"  # Replace this with the path to your directory
+$inputDirectory = "C:\Path\To\Your\Directory"  # Replace this with the path to your directory
 
 # Get all .mp4 files in the directory
 Get-ChildItem -Path $inputDirectory -Filter "*.mp4" | ForEach-Object {
