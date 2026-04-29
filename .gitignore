@@ -12,7 +12,7 @@ transcripts/
 .claude
 .idea
 .vscode
-
+.codex
 *.ini
 utils/*.ini
 utils/mount_nas.sh
